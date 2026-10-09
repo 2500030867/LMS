@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LMS - Login</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #4facfe, #6a5acd);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-container {
+            width: 400px;
+            background: white;
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo h1 {
+            color: #4b4ded;
+            font-size: 30px;
+        }
+
+        .logo p {
+            color: #777;
+            margin-top: 5px;
+        }
+
+        .role-buttons {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 25px;
+        }
+
+        .role-buttons button {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 7px;
+            background: #eee;
+            cursor: pointer;
+        }
+
+        .role-buttons button.active {
+            background: #4b4ded;
+            color: white;
+        }
+
+        .input-group {
+            margin-bottom: 18px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+            color: #444;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            outline: none;
+        }
+
+        .input-group input:focus {
+            border-color: #4b4ded;
+        }
+
+        .forgot {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+
+        .forgot a {
+            color: #4b4ded;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 7px;
+            background: #4b4ded;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .login-btn:hover {
+            background: #3839c7;
+        }
+
+        .message {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        .demo {
+            margin-top: 20px;
+            padding: 12px;
+            background: #f5f5f5;
+            border-radius: 7px;
+            font-size: 13px;
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <div class="logo">
+            <h1>📚 LMS</h1>
+            <p>Learning Management System</p>
+        </div>
+
+        <div class="role-buttons">
+            <button class="active" onclick="selectRole('Student', this)">
+                Student
+            </button>
+
+            <button onclick="selectRole('Faculty', this)">
+                Faculty
+            </button>
+
+            <button onclick="selectRole('Admin', this)">
+                Admin
+            </button>
+        </div>
+
+        <form onsubmit="login(event)">
+
+            <div class="input-group">
+                <label>Username / ID</label>
+                <input
+                    type="text"
+                    id="username"
+                    placeholder="Enter your username"
+                    required>
+            </div>
+
+            <div class="input-group">
+                <label>Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Enter your password"
+                    required>
+            </div>
+
+            <div class="forgot">
+                <a href="#" onclick="forgotPassword()">
+                    Forgot Password?
+                </a>
+            </div>
+
+            <button class="login-btn" type="submit">
+                Login
+            </button>
+
+        </form>
+
+        <div class="message" id="message"></div>
+
+        <div class="demo">
+            <b>Demo Login</b><br>
+            Student: student / 1234<br>
+            Faculty: faculty / 1234<br>
+            Admin: admin / 1234
+        </div>
+
+    </div>
+
+
+    <script>
+
+        let selectedRole = "Student";
+
+        function selectRole(role, button) {
+
+            selectedRole = role;
+
+            let buttons = document.querySelectorAll(".role-buttons button");
+
+            buttons.forEach(btn => {
+                btn.classList.remove("active");
+            });
+
+            button.classList.add("active");
+        }
+
+
+        function login(event) {
+
+            event.preventDefault();
+
+            let username =
+                document.getElementById("username").value;
+
+            let password =
+                document.getElementById("password").value;
+
+            let message =
+                document.getElementById("message");
+
+            let valid = false;
+
+            if (
+                selectedRole === "Student" &&
+                username === "student" &&
+                password === "1234"
+            ) {
+                valid = true;
+            }
+
+            if (
+                selectedRole === "Faculty" &&
+                username === "faculty" &&
+                password === "1234"
+            ) {
+                valid = true;
+            }
+
+            if (
+                selectedRole === "Admin" &&
+                username === "admin" &&
+                password === "1234"
+            ) {
+                valid = true;
+            }
+
+            if (valid) {
+
+                message.style.color = "green";
+                message.innerHTML =
+                    "Login successful! Welcome " +
+                    selectedRole + ".";
+
+                setTimeout(function() {
+                    window.location.href =
+                        "dashboard.html";
+                }, 1000);
+
+            } else {
+
+                message.style.color = "red";
+                message.innerHTML =
+                    "Invalid username or password.";
+
+            }
+        }
+
+
+        function forgotPassword() {
+
+            alert(
+                "Please contact the LMS administrator to reset your password."
+            );
+
+        }
+
+    </script>
+
+</body>
+</html>
